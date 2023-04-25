@@ -13,8 +13,7 @@ public class PersonaDto {
     String  nombre;
     @NotNull
     Long  numeroDocumento;
-
-    @NotNull //Todo Enum para DNI - PASAPORTE - CEDULA
+    @NotNull
     String  tipoDocumento;
     @NotNull
     LocalDate fechaNacimiento;

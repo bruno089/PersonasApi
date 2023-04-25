@@ -2,9 +2,7 @@ package com.brunolopezcross.PersonasApi.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Data
@@ -20,8 +18,9 @@ public class Persona {
     String  nombre;
     @Column(name = "perNumeroDocumento")
     Long    numeroDocumento;
+    @Enumerated(EnumType.STRING)
     @Column(name = "perTipoDocumento")
-    String  tipoDocumento;
+    TipoDocumento  tipoDocumento;
     @Column(name = "perFechaNacimiento")
     LocalDate fechaNacimiento;
 }
