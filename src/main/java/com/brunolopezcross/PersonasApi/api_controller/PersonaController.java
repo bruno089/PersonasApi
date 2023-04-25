@@ -1,4 +1,4 @@
-package com.brunolopezcross.PersonasApi.api_rest;
+package com.brunolopezcross.PersonasApi.api_controller;
 
 import com.brunolopezcross.PersonasApi.dto.PersonaDto;
 import com.brunolopezcross.PersonasApi.service.PersonaService;
@@ -9,9 +9,9 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController()
-@RequestMapping(PersonaRestController.PERSONAS_ENDPOINT)
+@RequestMapping(PersonaController.PERSONAS_ENDPOINT)
 @AllArgsConstructor
-public class PersonaRestController {
+public class PersonaController {
     PersonaService personaService;
     public static final  String PERSONAS_ENDPOINT =  "/personas";
     public static final String ID = "/{id}";
