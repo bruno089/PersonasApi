@@ -1,5 +1,6 @@
 package com.brunolopezcross.PersonasApi.mapper;
 
+import com.brunolopezcross.PersonasApi.DatosParaTests;
 import com.brunolopezcross.PersonasApi.dto.PersonaDto;
 import com.brunolopezcross.PersonasApi.model.Persona;
 import com.brunolopezcross.PersonasApi.model.TipoDocumento;
@@ -17,16 +18,10 @@ class PersonaMapperTest {
 
     @Test
     void toPersona () {
-        PersonaDto personaDto = PersonaDto.builder()
-                .apellido("Perez")
-                .nombre("Juan")
-                .numeroDocumento(123456789L)
-                .tipoDocumento("DNI")
-                .fechaNacimiento("03/12/2007")
-                .build();
+
+        PersonaDto personaDto = DatosParaTests.getPersonaDto();
 
         Persona persona  = personaMapper.toPersona(personaDto);
-
 
         assertEquals(personaDto.getNombre(), persona.getNombre());
         assertEquals(personaDto.getApellido(), persona.getApellido());
@@ -37,13 +32,8 @@ class PersonaMapperTest {
 
     @Test
     void toPersonaDto () {
-        Persona persona = Persona.builder()
-                .nombre("Juan")
-                .apellido("Perez")
-                .numeroDocumento(123456789L)
-                .tipoDocumento(TipoDocumento.CEDULA)
-                .fechaNacimiento(LocalDate.parse("03/12/2007", DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-                .build();
+
+        Persona persona = DatosParaTests.getPersona();
 
         PersonaDto personaDto = personaMapper.toPersonaDto(persona);
 
