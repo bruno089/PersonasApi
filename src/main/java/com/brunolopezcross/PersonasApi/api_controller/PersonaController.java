@@ -1,6 +1,7 @@
 package com.brunolopezcross.PersonasApi.api_controller;
 
 import com.brunolopezcross.PersonasApi.dto.PersonaDto;
+import com.brunolopezcross.PersonasApi.exception.BadRequestException;
 import com.brunolopezcross.PersonasApi.service.PersonaService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,6 @@ public class PersonaController {
     public PersonaDto nuevo( @Valid @RequestBody PersonaDto personaDto){
         return personaService.nuevo(personaDto);
     }
-
     @PutMapping(ID)
     public PersonaDto editar(@PathVariable Integer id, @RequestBody PersonaDto personaDto){
         return personaService.editar(id, personaDto);
@@ -31,15 +31,28 @@ public class PersonaController {
         personaService.eliminar(id);
     }
 
-    //Busquedas
 
+    /** Busquedas Personas */
     @GetMapping("/nombre")
     public List<PersonaDto> buscarPersonasPorNombreLikeNoCaseSensitive(String nombre){
+        if (nombre == null || nombre.isEmpty()) {
+            throw new BadRequestException("El nombre no puede ser nulo o vacío");
+        }
         return personaService.buscarPersonasPorNombreLikeNoCaseSensitive(nombre);
     }
-
     @GetMapping("/tipo-documento")
     public List<PersonaDto> buscarPersonasPorTipoDocumento(String tipoDocumento){
+
+        if (tipoDocumento == null || tipoDocumento.isEmpty()) {
+            throw new BadRequestException("El tipo de documento no puede ser nulo o vacío");
+        }
+
+        String tipoDocumentoUpperCase = tipoDocumento.toUpperCase();
+        if (!tipoDocumentoUpperCase.equals("DNI") && !tipoDocumentoUpperCase.equals("CEDULA") && !tipoDocumentoUpperCase.equals("PASAPORTE")) {
+            throw new BadRequestException("El tipo de documento no es válido. Los valores permitidos son: DNI, CEDULA, PASAPORTE");
+        }
+
         return personaService.buscarPersonasPorTipoDocumento(tipoDocumento);
     }
+
 }
