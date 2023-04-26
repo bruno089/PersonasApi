@@ -4,6 +4,8 @@ import com.brunolopezcross.PersonasApi.dto.PersonaDto;
 import com.brunolopezcross.PersonasApi.exception.BadRequestException;
 import com.brunolopezcross.PersonasApi.service.PersonaService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,14 +36,14 @@ public class PersonaController {
 
     /** Busquedas Personas */
     @GetMapping("/nombre")
-    public List<PersonaDto> buscarPersonasPorNombreLikeNoCaseSensitive(String nombre){
+    public Page<PersonaDto>buscarPersonasPorNombreLikeNoCaseSensitive(String nombre, Pageable pageable ){
         if (nombre == null || nombre.isEmpty()) {
             throw new BadRequestException("El nombre no puede ser nulo o vacío");
         }
-        return personaService.buscarPersonasPorNombreLikeNoCaseSensitive(nombre);
+        return personaService.buscarPersonasPorNombreLikeNoCaseSensitive(nombre,pageable);
     }
     @GetMapping("/tipo-documento")
-    public List<PersonaDto> buscarPersonasPorTipoDocumento(String tipoDocumento){
+    public Page<PersonaDto> buscarPersonasPorTipoDocumento( String tipoDocumento, Pageable pageable ){
 
         if (tipoDocumento == null || tipoDocumento.isEmpty()) {
             throw new BadRequestException("El tipo de documento no puede ser nulo o vacío");
@@ -52,7 +54,7 @@ public class PersonaController {
             throw new BadRequestException("El tipo de documento no es válido. Los valores permitidos son: DNI, CEDULA, PASAPORTE");
         }
 
-        return personaService.buscarPersonasPorTipoDocumento(tipoDocumento);
+        return personaService.buscarPersonasPorTipoDocumento(tipoDocumento, pageable);
     }
 
 }

@@ -3,6 +3,10 @@ package com.brunolopezcross.PersonasApi;
 import com.brunolopezcross.PersonasApi.dto.PersonaDto;
 import com.brunolopezcross.PersonasApi.model.Persona;
 import com.brunolopezcross.PersonasApi.model.TipoDocumento;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +37,14 @@ public class DatosParaTests {
         return personaDto;
     }
 
+    public static Page<PersonaDto> getPersonaDtoPaginated () {
+        int pageNumber = 0;
+        int pageSize = 100;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return new PageImpl<>(getPersonaDtoList(), pageable, getPersonaDtoList().size());
+
+    }
+
     public static Persona getPersona(){
 
         Persona persona = Persona.builder()
@@ -44,6 +56,8 @@ public class DatosParaTests {
                 .build();
         return persona;
     }
+
+
 
 
 

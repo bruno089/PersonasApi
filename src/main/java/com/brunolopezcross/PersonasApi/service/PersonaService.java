@@ -10,6 +10,10 @@ import com.brunolopezcross.PersonasApi.repository.PersonaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,17 +33,19 @@ public class PersonaService {
     }
     public PersonaDto editar ( Integer id, PersonaDto personaDto ) {return null;} //Todo
     public void eliminar ( Integer id ) {} //Todo
-    public List<PersonaDto> buscarPersonasPorNombreLikeNoCaseSensitive ( String nombre ) {
+    public Page<PersonaDto> buscarPersonasPorNombreLikeNoCaseSensitive ( String nombre, Pageable pageable ) {
 
-        List<Persona> personas = personaRepository.findAllByNombreContainingIgnoreCase(nombre);
+        Page<Persona> personas = personaRepository.findAllByNombreContainingIgnoreCase(nombre,pageable);
 
-        return personaMapper.toPersonaDtoList(personas);
+        return new PageImpl<>(personaMapper.toPersonaDtoList(personas.getContent()),
+                pageable, personas.getContent().size());
     }
-    public List<PersonaDto> buscarPersonasPorTipoDocumento ( String tipoDocumento ) {
+    public  Page<PersonaDto> buscarPersonasPorTipoDocumento ( String tipoDocumento , Pageable pageable ) {
 
-        List<Persona> personas = personaRepository.findAllByTipoDocumentoIgnoreCase(tipoDocumento);
+        Page<Persona> personasPaginated = personaRepository.findAllByTipoDocumentoIgnoreCase(tipoDocumento, pageable);
 
-        return personaMapper.toPersonaDtoList(personas);
+        return new PageImpl<>( personaMapper.toPersonaDtoList(personasPaginated.getContent()),
+                pageable, personasPaginated.getTotalElements());
     }
 
 }
